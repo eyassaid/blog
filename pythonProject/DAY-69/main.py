@@ -12,7 +12,7 @@ from flask_gravatar import Gravatar
 from functools import wraps
 
 app = Flask(__name__)
-passw=app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY","eyaas")
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 gravatar = Gravatar(app,
@@ -102,7 +102,7 @@ def register():
         else:
             flash("The Email is registered in the DataBase ")
             return redirect(url_for("register"))
-    return render_template("register.html",form = form,current_user=current_user,passw=passw)
+    return render_template("register.html",form = form,current_user=current_user,)
 
 
 @app.route('/login',methods = ["GET","POST"])
