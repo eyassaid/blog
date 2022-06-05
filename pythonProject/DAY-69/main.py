@@ -24,7 +24,7 @@ gravatar = Gravatar(app,
                     use_ssl=False,
                     base_url=None)
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://cyutgrwppeukpg:160ab18bb1009368ebee86ea1f641a5ccde818b7419c55333ee60ad5777e83ea@ec2-34-231-221-151.compute-1.amazonaws.com:5432/d7be0fc0kak05s"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///blog.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
