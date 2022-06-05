@@ -20,6 +20,7 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         {% for post in all_posts %}
+        <h1>{{ passw }}</h1>
         <div class="post-preview">
           <a href="{{ url_for('show_post', post_id=post.id) }}">
             <h2 class="post-title">
