@@ -78,137 +78,137 @@ class Comments(db.Model):
     post= relationship("BlogPost",back_populates="comments")
 
 
-# @app.route('/')
-# def get_all_posts():
-#     posts = BlogPost.query.all()
-#     return render_template("index.html", all_posts=posts,current_user=current_user)
-#
-#
-# @app.route('/register',methods=["GET","POST"])
-# def register():
-#     form = Register_Form()
-#     if form.validate_on_submit():
-#         exsist = User.query.filter_by(email = form.email.data).first()
-#         if not exsist:
-#             new_user = User(
-#                 name = form.name.data,
-#                 email = form.email.data,
-#                 password = form.password.data
-#             )
-#             db.session.add(new_user)
-#             db.session.commit()
-#             login_user(new_user)
-#             return redirect(url_for("get_all_posts"),)
-#         else:
-#             flash("The Email is registered in the DataBase ")
-#             return redirect(url_for("register"))
-#     return render_template("register.html",form = form,current_user=current_user)
-#
-#
-# @app.route('/login',methods = ["GET","POST"])
-# def login():
-#     form = Login_Form()
-#     if form.validate_on_submit():
-#         user=User.query.filter_by(email=form.email.data).first()
-#         if user and user.password == form.password.data:
-#             login_user(user)
-#             return redirect(url_for("get_all_posts"))
-#         else:
-#             flash("Username or password is incorrect")
-#             return redirect(url_for("login"))
-#     return render_template("login.html", form = form,current_user=current_user)
-#
-#
-# @app.route('/logout')
-# def logout():
-#     logout_user()
-#     return redirect(url_for('get_all_posts'))
-#
-#
-# @app.route("/post/<int:post_id>",methods=["GET","POST"])
-# def show_post(post_id):
-#     requested_post = BlogPost.query.get(post_id)
-#     form = CommentForm()
-#     if form.validate_on_submit():
-#         if current_user.is_authenticated:
-#             comment = Comments(
-#                 text = form.comment.data,
-#                 author = current_user,
-#                 post = requested_post
-#
-#             )
-#             db.session.add(comment)
-#             db.session.commit()
-#             return redirect(url_for("get_all_posts"))
-#         else:
-#             flash("you need to register first before you post your comment")
-#             return redirect(url_for("register"))
-#
-#     return render_template("post.html", post=requested_post,current_user=current_user,form=form,gravatar=gravatar)
-#
-# @app.route("/new-post",methods=["GET","POST"])
-# @admin_only
-# def add_new_post():
-#     form = CreatePostForm()
-#     if form.validate_on_submit():
-#         new_post = BlogPost(
-#             title=form.title.data,
-#             subtitle=form.subtitle.data,
-#             body=form.body.data,
-#             img_url=form.img_url.data,
-#             author=current_user,
-#             date=date.today().strftime("%B %d, %Y")
-#         )
-#
-#         db.session.add(new_post)
-#         db.session.commit()
-#         return redirect(url_for("get_all_posts"))
-#     return render_template("make-post.html", form=form,current_user=current_user)
-#
-#
-# @app.route("/about")
-# def about():
-#     return render_template("about.html")
-#
-#
-# @app.route("/contact")
-# def contact():
-#     return render_template("contact.html")
-#
-#
-#
-#
-# @app.route("/edit-post/<int:post_id>")
-# @admin_only
-# def edit_post(post_id):
-#     post = BlogPost.query.get(post_id)
-#     edit_form = CreatePostForm(
-#         title=post.title,
-#         subtitle=post.subtitle,
-#         img_url=post.img_url,
-#         author=post.author,
-#         body=post.body
-#     )
-#     if edit_form.validate_on_submit():
-#         post.title = edit_form.title.data
-#         post.subtitle = edit_form.subtitle.data
-#         post.img_url = edit_form.img_url.data
-#         post.author = edit_form.author.data
-#         post.body = edit_form.body.data
-#         db.session.commit()
-#         return redirect(url_for("show_post", post_id=post.id))
-#
-#     return render_template("make-post.html", form=edit_form)
-#
-#
-# @app.route("/delete/<int:post_id>")
-# @admin_only
-# def delete_post(post_id):
-#     post_to_delete = BlogPost.query.get(post_id)
-#     db.session.delete(post_to_delete)
-#     db.session.commit()
-#     return redirect(url_for('get_all_posts'))
-#
-#
-# if __name__ == "__main__":
-#     app.run(host='0.0.0.0', port=5000)
+@app.route('/')
+def get_all_posts():
+    posts = BlogPost.query.all()
+    return render_template("index.html", all_posts=posts,current_user=current_user)
+
+
+@app.route('/register',methods=["GET","POST"])
+def register():
+    form = Register_Form()
+    if form.validate_on_submit():
+        exsist = User.query.filter_by(email = form.email.data).first()
+        if not exsist:
+            new_user = User(
+                name = form.name.data,
+                email = form.email.data,
+                password = form.password.data
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user)
+            return redirect(url_for("get_all_posts"),)
+        else:
+            flash("The Email is registered in the DataBase ")
+            return redirect(url_for("register"))
+    return render_template("register.html",form = form,current_user=current_user)
+
+
+@app.route('/login',methods = ["GET","POST"])
+def login():
+    form = Login_Form()
+    if form.validate_on_submit():
+        user=User.query.filter_by(email=form.email.data).first()
+        if user and user.password == form.password.data:
+            login_user(user)
+            return redirect(url_for("get_all_posts"))
+        else:
+            flash("Username or password is incorrect")
+            return redirect(url_for("login"))
+    return render_template("login.html", form = form,current_user=current_user)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('get_all_posts'))
+
+
+@app.route("/post/<int:post_id>",methods=["GET","POST"])
+def show_post(post_id):
+    requested_post = BlogPost.query.get(post_id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        if current_user.is_authenticated:
+            comment = Comments(
+                text = form.comment.data,
+                author = current_user,
+                post = requested_post
+
+            )
+            db.session.add(comment)
+            db.session.commit()
+            return redirect(url_for("get_all_posts"))
+        else:
+            flash("you need to register first before you post your comment")
+            return redirect(url_for("register"))
+
+    return render_template("post.html", post=requested_post,current_user=current_user,form=form,gravatar=gravatar)
+
+@app.route("/new-post",methods=["GET","POST"])
+@admin_only
+def add_new_post():
+    form = CreatePostForm()
+    if form.validate_on_submit():
+        new_post = BlogPost(
+            title=form.title.data,
+            subtitle=form.subtitle.data,
+            body=form.body.data,
+            img_url=form.img_url.data,
+            author=current_user,
+            date=date.today().strftime("%B %d, %Y")
+        )
+
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect(url_for("get_all_posts"))
+    return render_template("make-post.html", form=form,current_user=current_user)
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+
+
+
+@app.route("/edit-post/<int:post_id>")
+@admin_only
+def edit_post(post_id):
+    post = BlogPost.query.get(post_id)
+    edit_form = CreatePostForm(
+        title=post.title,
+        subtitle=post.subtitle,
+        img_url=post.img_url,
+        author=post.author,
+        body=post.body
+    )
+    if edit_form.validate_on_submit():
+        post.title = edit_form.title.data
+        post.subtitle = edit_form.subtitle.data
+        post.img_url = edit_form.img_url.data
+        post.author = edit_form.author.data
+        post.body = edit_form.body.data
+        db.session.commit()
+        return redirect(url_for("show_post", post_id=post.id))
+
+    return render_template("make-post.html", form=edit_form)
+
+
+@app.route("/delete/<int:post_id>")
+@admin_only
+def delete_post(post_id):
+    post_to_delete = BlogPost.query.get(post_id)
+    db.session.delete(post_to_delete)
+    db.session.commit()
+    return redirect(url_for('get_all_posts'))
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
