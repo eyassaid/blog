@@ -10,8 +10,9 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm,Register_Form, Login_Form, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 gravatar = Gravatar(app,
@@ -23,7 +24,7 @@ gravatar = Gravatar(app,
                     use_ssl=False,
                     base_url=None)
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
