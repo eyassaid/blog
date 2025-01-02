@@ -24,12 +24,16 @@ class Comment{
   
             $stmt = $this->pdo->prepare(
                 '
-            select c.id,c.comment,u.name,c.user_id from comments c join users u on c.user_id = u.id where post_id = :post_id
+            select c.id,c.comment,u.name,c.user_id,(select count(*) from likes where comment_id = c.id) as likes
+            from comments c 
+            join users u on c.user_id = u.id 
+            where post_id = :post_id
              ');
-
              $params = ['post_id'=>$post_id];
              $stmt->execute($params);
-             return $stmt->fetchAll();
+             $results = $stmt->fetchAll();
+
+             return $results;
         }catch(PDOException $e){
             return $e->getMessage();
         }
@@ -79,4 +83,5 @@ class Comment{
             return ['response'=>401,'message'=>$e->getMessage()];
         }
     }
+
 }

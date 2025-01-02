@@ -1,7 +1,4 @@
 <?php
-require_once __DIR__.'/../config/database.php'; // get pdo and the seesion 
-
-
 class PostController{
     private $pdo,$user_id,$is_logged_in;
     private $create_post_message = 'Post successfully added';
@@ -50,7 +47,8 @@ class PostController{
     }
     public function get_all_posts(){
         try{
-            $stmt = $this->pdo->query('select p.*,u.name from posts p join users u on p.user_id = u.id order by p.id desc');
+            $stmt = $this->pdo->query('select p.*,u.name from posts p
+             join users u on p.user_id = u.id order by p.id desc');
             $posts = $stmt->fetchAll();
             return $posts;
         }catch(PDOException $e){

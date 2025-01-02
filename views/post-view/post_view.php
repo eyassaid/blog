@@ -1,20 +1,23 @@
 <?php
+$title = 'test';
 require_once __DIR__.'/../../templates/header.php';
 if (!isset($_GET['post_id'])) header('Location:'.$home);
 require_once __DIR__.'/../../controllers/CommentController.php';
-require_once __DIR__.'/../../Models/UpVote.php';
+require_once __DIR__.'/../../controllers/LikeController.php';
 require_once __DIR__.'/../../controllers/PostController.php';
+
 // classes
+$posts = new PostController($pdo);
 $comment_controller = new Comment($pdo);
-$UpVote = new UpVote($pdo);
+$like = new Like($pdo);
 
 // need to be fixed because the user can enter invalid post id
 $post_id = $_GET['post_id'];
 $user_id = $_SESSION['user_id'] ?? null;
 $comments = $comment_controller->all_comments($post_id);
 
-$posts = new PostController($pdo);
-$post = $posts->get_post($post_id);
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
   $method = htmlspecialchars($_POST['_method']);
@@ -32,15 +35,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $comment_controller->edit_comment($new_comment,$comment_id);
   }
   //-------------------------------------------------------
-    // edit comment in the post------------------------------
+    // edit comment in the post----------------------------
     if ($method === 'delete_comment'){
       $comment_controller->delete_comment($comment_id);
     }
-    //-------------------------------------------------------
-}
+  //-------------------------------------------------------
+  // add like----------------------------------------------
+    if ($method === 'add_like'){
+      $like->add_like_to_comment($comment_id,$post_id);
+    }
+  //-------------------------------------------------------
 
+}
+// get data from controllers-------------------------------
+$post = $posts->get_post($post_id);
 $comments = $comment_controller->all_comments($post_id);
 
+//---------------------------------------------------------
 ?>
 <div class="d-flex m-3 justify-content-center">
     <div class="card " style="width:100%;text-align:center;">
@@ -78,6 +89,7 @@ $comments = $comment_controller->all_comments($post_id);
               <div class="d-flex flex-row align-items-center">
                 <?php  if($is_logged_in): ?>
                 <form method="POST" class="m-2">
+                  <input type="hidden" name="_method" value="add_like">
                   <input type="hidden" name="comment_id" value="<?= $comment['id']?>">
                   <button type="submit" class="small text-muted mb-0 btn btn-success btn-sm">Upvote?</button>
                 </form>
@@ -101,7 +113,7 @@ $comments = $comment_controller->all_comments($post_id);
                 </form>
 <?php endif ?>
                 <i class="far fa-thumbs-up mx-2 fa-xs text-body" style="margin-top: -0.16rem;"></i>
-                <p class="small text-muted mb-0">place holder for number of votes</p>
+                <p class="small text-muted mb-0"><?= $comment['likes'] ?></p>
                
               </div>
             </div>

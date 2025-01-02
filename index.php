@@ -26,7 +26,7 @@ $posts = $Post->get_all_posts();
                     <h5 class="card-title"><?= $post['title'] ?></h5>
                     <p class="card-text"><?=strlen($post['body']) < 30 ? $post['body'] :substr($post['body'],0,30).'...'  ?></p>
                     <a href="<?= $nav['post_view']?>?post_id=<?=$post['id'] ?>">Go to post</a>
-                </div>
+                </div>  
                 <div class="card-footer text-muted">
                     <?php if ($post['user_id'] == $user_id) :?>
                         

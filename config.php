@@ -1,5 +1,5 @@
 <?php 
-$app_url = 'http://localhost/practice';
+$app_url = 'http://localhost/blog';
 
 $nav = [
     'controllers'=>$app_url.'/controllers',
