@@ -1,12 +1,9 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config.php';
 $login_page = __DIR__. '/../views/register/login.php';
 // global variables
 $home = $nav['home'];
-$is_logged_in = $_SESSION['logged_in'] ?? false;
-$user_id = $_SESSION['user_id'] ?? null;
-$name = $_SESSION['name'] ?? null;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

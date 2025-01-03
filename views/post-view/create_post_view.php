@@ -1,27 +1,19 @@
 <?php
 require_once __DIR__. '/../../templates/header.php';
-require_once __DIR__.'/../../controllers/PostController.php';
 if (!$is_logged_in) header('Location:'.$home);
-$error=false;
-if ($_SERVER['REQUEST_METHOD'] === "POST"){
-    $title = htmlspecialchars($_POST['title']) ?? null;
-    $body = htmlspecialchars($_POST['body']) ?? null;
-    if (!$title || !$body) {
-        $error = true;
-        require __DIR__.'/../message.php';
-    }else{
-        $stmt = new PostController($pdo);
-        $stmt->create_post($title,$body,$user_id);
-        header('location:'.$home);
-    }
-
-
+require_once __DIR__. '/../../controllers/PostController.php';
+$post_controller = new PostController;
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $title = htmlspecialchars($_POST['title']);
+    $body = htmlspecialchars($_POST['body']);
+    $post_controller->create_post($title,$body);
+    header('Location:'.$home);
 }
 ?>
-    <?php if ($error) Message::error('all fields are required')?>
 <div class="container d-flex justify-content-center m-3  ">
  
     <form method="POST">
+        <input type="hidden" name="_method" value="create_post">
         <div class='form-group m-2'>
             <input name='title' id='title' class="form-control" placeholder="title">
         </div>
